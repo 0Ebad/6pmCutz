@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haarschnitt Terminbuchung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Termin für Haarschnitt buchen</h2>
+        <form id="bookingForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="contact">Email oder Telefonnummer:</label>
+            <input type="text" id="contact" required>
+
+            <label for="date">Datum:</label>
+            <input type="date" id="date" required>
+
+            <label for="time">Zeit:</label>
+            <input type="time" id="time" required>
+
+            <label for="service">Dienstleistung:</label>
+            <select id="service" required>
+                <option value="haare_schneiden">Haare schneiden</option>
+                <option value="haare_schneiden_shisha">Haare schneiden + Shisha rauchen</option>
+            </select>
+
+            <button type="submit">Termin buchen</button>
+        </form>
+        <p id="confirmationMessage" style="color: green; display:none;"></p>
+    </div>
+
+    <script>
+        document.getElementById("bookingForm").addEventListener("submit", function(event){
+            event.preventDefault(); // Verhindert das Standard-Formularverhalten
+
+            // Werte aus dem Formular holen
+            var name = document.getElementById("name").value;
+            var contact = document.getElementById("contact").value;
+            var date = document.getElementById("date").value;
+            var time = document.getElementById("time").value;
+            var service = document.getElementById("service").value;
+
+            // Dienstleistungsname für die Bestätigungsmeldung anpassen
+            var serviceText;
+            if (service === "haare_schneiden") {
+                serviceText = "Haare schneiden";
+            } else if (service === "haare_schneiden_shisha") {
+                serviceText = "Haare schneiden + Shisha rauchen";
+            }
+
+            // Nachricht mit den Buchungsdetails anzeigen
+            var confirmationMessage = "Vielen Dank, " + name + "! Dein Termin für " + serviceText + " am " + date + " um " + time + " wurde erfolgreich gebucht.";
+            document.getElementById("confirmationMessage").textContent = confirmationMessage;
+            document.getElementById("confirmationMessage").style.display = "block";
+
+            // Buchungsdetails per E-Mail senden
+            var mailtoLink = "mailto:osman.haris99@gmail.com"
+                           + "?subject=Neue Terminbuchung"
+                           + "&body=Name: " + encodeURIComponent(name)
+                           + "%0DKontakt (Email oder Telefonnummer): " + encodeURIComponent(contact)
+                           + "%0DDatum: " + encodeURIComponent(date)
+                           + "%0DUhrzeit: " + encodeURIComponent(time)
+                           + "%0DDienstleistung: " + encodeURIComponent(serviceText);
+
+            window.location.href = mailtoLink;
+
+            // Formular zurücksetzen
+            document.getElementById("bookingForm").reset();
+        });
+    </script>
+</body>
+</html>
